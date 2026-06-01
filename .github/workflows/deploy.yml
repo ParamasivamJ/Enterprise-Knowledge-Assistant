@@ -1,0 +1,34 @@
+name: Deploy Backend to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Only run when backend folder code changes
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/Enterprise-Knowledge-Assistant
+            # Pull latest changes from GitHub
+            git pull origin main
+            
+            # Navigate to backend and restart the running Docker container
+            cd backend
+            sudo docker stop backend || true
+            sudo docker rm backend || true
+            sudo docker build -t knowledge-assistant-backend .
+            sudo docker run -d --name backend --env-file .env -p 8000:8000 knowledge-assistant-backend
