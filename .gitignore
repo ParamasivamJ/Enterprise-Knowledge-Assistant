@@ -1,0 +1,40 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# ── Environment ──
+.env
+.env.local
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Node ──
+node_modules/
+.next/
+out/
+
+# ── Docker ──
+# Don't ignore docker-compose.yml, that's needed
+
+# ── Uploads (large files) ──
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ── Model cache ──
+backend/.model_cache/
